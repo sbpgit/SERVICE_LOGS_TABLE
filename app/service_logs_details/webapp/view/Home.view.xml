@@ -1,0 +1,111 @@
+<mvc:View controllerName="cpapp.servicelogsdetails.controller.Home"
+   xmlns:mvc="sap.ui.core.mvc" xmlns:core="sap.ui.core"
+	displayBlock="true" xmlns="sap.m" xmlns:m="sap.m" xmlns:l="sap.ui.layout" xmlns:ux="sap.uxap" xmlns:f="sap.ui.layout.form"
+	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:u="sap.ui.unified">
+    <ux:ObjectPageLayout id="ObjectPageLayout">
+		<ux:headerTitle>
+			<ux:ObjectPageDynamicHeaderTitle>
+				<ux:expandedHeading>
+					<HBox>
+						<Title text="{i18n>title}" class="TitleClass" titleAlignment="Center" wrapping="true"/>
+					</HBox>
+				</ux:expandedHeading>
+				<ux:snappedHeading>
+					<HBox fitContainer="true" alignItems="Center">
+						<Title text="{i18n>title}" wrapping="true" class="TitleClass"/>
+						<!-- <Button class="hdrBtnMarginHdr1" type="Emphasized" icon="sap-icon://sys-help" press="onNavPress" tooltip="Help Document" id="nav" /> -->
+					</HBox>
+				</ux:snappedHeading>
+				<ux:actions>
+					<!-- <Button text="{i18n>createjob}" press="onCreateJob" id="idcreate" type="Ghost"></Button>
+					<Button tooltip="Refresh" icon="sap-icon://refresh" press="onRefresh" type="Emphasized"/>
+					<Button tooltip="Sort" icon="sap-icon://sort" press="handleSortButtonPressed" type="Emphasized"/> -->
+					<!-- <OverflowToolbarButton icon="sap-icon://action" type="Transparent" text="Share" tooltip="action"/> -->
+				</ux:actions>
+			</ux:ObjectPageDynamicHeaderTitle>
+		</ux:headerTitle>
+		<ux:headerContent>
+			<Bar >
+				<contentLeft>
+					<SearchField id="headSearch" liveChange="handleSearch" placeholder="Job ID/Name"/>
+					<ToolbarSpacer />
+					
+                                            
+				</contentLeft>
+			</Bar>
+		</ux:headerContent>
+        <ux:sections>
+			<ux:ObjectPageSection>
+				<ux:subSections>
+					<ux:ObjectPageSubSection>
+						<ux:blocks>
+                        <Table id="jobList" items="{path: '/Jobresults', sorter: {path: 'JOB_TIME_STAMP',descending:true}}" itemPress="onhandlePress" growingScrollToLoad="true" mode="SingleSelectMaster"
+												sticky="ColumnHeaders" selectionChange="onhandlePress" rememberSelections="false">
+												<columns>
+													<Column hAlign="Left" vAlign="Middle" width="100px">
+														<Text text="Job ID"/>
+													</Column>
+													<Column hAlign="Left" vAlign="Middle">
+														<Text text="Job Name"/>
+													</Column>
+													<Column hAlign="Left" vAlign="Middle" width="75px">
+														<Text text="Time Stamp"/>
+													</Column>
+													<Column hAlign="Left" vAlign="Middle">
+														<Text text="Comments"/>
+													</Column>
+													<Column hAlign="Center" vAlign="Middle" width="100px">
+														<Text text="Message Type"/>
+													</Column>
+													<Column hAlign="Left" vAlign="Middle">
+														<Text text="Parameter 1"/>
+													</Column>
+													<Column hAlign="Left" vAlign="Middle">
+														<Text text="Parameter 2"/>
+													</Column>
+													<Column hAlign="Left" vAlign="Middle">
+														<Text text="Parameter 3"/>
+													</Column>
+                                                    <Column hAlign="Left" vAlign="Middle">
+														<Text text="Parameter 4"/>
+													</Column>
+                                                    <Column hAlign="Left" vAlign="Middle">
+														<Text text="Parameter 5"/>
+													</Column>
+                                                    <Column hAlign="Left" vAlign="Middle">
+														<Text text="Parameter 6"/>
+													</Column>
+                                                    <Column hAlign="Left" vAlign="Middle">
+														<Text text="Parameter 7"/>
+													</Column>
+                                                    <Column hAlign="Left" vAlign="Middle">
+														<Text text="Parameter 8"/>
+													</Column>
+												</columns>
+												<items>
+													<ColumnListItem>
+														<cells>
+															<Text text="{JOB_ID}"/>
+															<Text text="{JOB_NAME}"/>
+															<Text text="{JOB_TIME_STAMP}"/>
+															<Text text="{COMMENT}"/>
+                                                            <Text text="{MESSAGE_TYPE}"/>
+                                                            <Text text="{PARAMETER_1}"/>
+                                                            <Text text="{PARAMETER_2}"/>
+                                                            <Text text="{PARAMETER_3}"/>
+                                                            <Text text="{PARAMETER_4}"/>
+                                                            <Text text="{PARAMETER_5}"/>
+                                                            <Text text="{PARAMETER_6}"/>
+                                                            <Text text="{PARAMETER_7}"/>
+                                                            <Text text="{PARAMETER_8}"/>															
+														</cells>
+													</ColumnListItem>
+												</items>
+											</Table>
+                                            </ux:blocks>
+					</ux:ObjectPageSubSection>
+				</ux:subSections>
+			</ux:ObjectPageSection>
+		</ux:sections>
+	</ux:ObjectPageLayout>
+</mvc:View>

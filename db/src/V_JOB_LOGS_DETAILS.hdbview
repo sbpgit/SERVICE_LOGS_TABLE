@@ -1,0 +1,21 @@
+------------------------------------------------------------------------------------
+-- Name:            V_JOB_LOGS_DETAILS
+-- Description:     Get Details from table 'JS_JOB_LOGS_TABLE'
+-- Join Details:    Nill
+-------------------------------------------------------------------------------------
+VIEW "V_JOB_LOGS_DETAILS" AS
+SELECT DISTINCT 
+        JOB_ID,     
+        JOB_NAME,   
+        JOB_TIME_STAMP, 
+        COMMENT,  
+        MESSAGE_TYPE,
+        PARAMETER_1,
+        PARAMETER_2,
+        PARAMETER_3,
+        PARAMETER_4,
+        PARAMETER_5,
+        PARAMETER_6,
+        PARAMETER_7,
+        PARAMETER_8 
+FROM "JS_JOB_LOGS_DETAILS"
