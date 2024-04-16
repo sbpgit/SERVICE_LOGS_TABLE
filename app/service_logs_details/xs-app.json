@@ -1,7 +1,38 @@
 {
   "welcomeFile": "/index.html",
   "authenticationMethod": "route",
+  "logout": {
+    "logoutEndpoint": "/app-logout",
+    "logoutPage": "/"
+},
   "routes": [
+    {
+      "source": "^/v2/odata/v4/job-scheduler/(.*)$",
+      "target": "/v2/odata/v4/job-scheduler/$1",
+      "destination": "ServiceLogsDetails",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true,
+      "scope": {
+        "GET": [
+          "$XSAPPNAME.User"
+        ],
+        "PUT": [
+          "$XSAPPNAME.User"
+        ],
+        "PATCH": [
+          "$XSAPPNAME.User"
+        ],
+        "POST": [
+          "$XSAPPNAME.User"
+        ],
+        "DELETE": [
+          "$XSAPPNAME.User"
+        ],
+        "default": [
+          "$XSAPPNAME.User"
+        ]
+      }
+    },
     {
       "source": "^/resources/(.*)$",
       "target": "/resources/$1",

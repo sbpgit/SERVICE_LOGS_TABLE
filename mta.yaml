@@ -8,21 +8,33 @@ modules:
   path: gen/srv
   requires:
   - name: service_logs-db
+  - name: service_logs-auth
   provides:
   - name: srv-api
     properties:
       srv-url: ${default-url}
   parameters:
     buildpack: nodejs_buildpack
+    disk-quota: 512M
+    memory: 512M
   build-parameters:
+    ignore:
+    - env
+    - ./node_modules
     builder: npm
 - name: service_logs-db-deployer
   type: hdb
-  path: gen/db
+  path: db
   requires:
   - name: service_logs-db
   parameters:
     buildpack: nodejs_buildpack
+    disk-quota: 256M
+    memory: 256M
+  build-parameters:
+    ignore:
+    - env
+    - ./node_modules  
 - name: service_logs-app-content
   type: com.sap.application.content
   path: .
@@ -47,6 +59,36 @@ modules:
     - npm install
     - npm run build:cf
     supported-platforms: []
+- name: service_logs-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: service_logs-destination-service
+    parameters:
+      content-target: true
+  - name: service_logs-repo-host
+    parameters:
+      service-key:
+        name: service_logs-repo-host-key
+  - name: service_logs-auth
+    parameters:
+      service-key:
+        name: service_logs-auth-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: ServiceLogsApp_service_logs_repo_host
+          ServiceInstanceName: service_logs-html5-srv
+          ServiceKeyName: service_logs-repo-host-key
+          sap.cloud.service: ServiceLogsApp
+        - Authentication: OAuth2UserTokenExchange
+          Name: ServiceLogsApp_service_logs_auth
+          ServiceInstanceName: service_logs-auth
+          ServiceKeyName: service_logs-auth-key
+          sap.cloud.service: ServiceLogsApp
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
 resources:
 - name: service_logs-db
   type: com.sap.xs.hdi-container
@@ -63,20 +105,20 @@ resources:
   type: org.cloudfoundry.managed-service
   parameters:
     config:
-      HTML5Runtime_enabled: false
-      init_data:
-        instance:
-          destinations:
-          - Authentication: NoAuthentication
-            Name: ui5
-            ProxyType: Internet
-            Type: HTTP
-            URL: https://ui5.sap.com
-          existing_destinations_policy: update
+      HTML5Runtime_enabled: true
       version: 1.0.0
     service: destination
     service-name: service_logs-destination-service
     service-plan: lite
+- name: service_logs-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: service_logs
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true
@@ -84,4 +126,8 @@ build-parameters:
   before-all:
   - builder: custom
     commands:
+    - npm install
     - npx cds build --production
+    - npm install --production
+    - npx -p @sap/cds-dk cds build --production
+    - node --unhandled-rejections=none
